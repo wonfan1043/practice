@@ -1,5 +1,6 @@
 package com.example.practice.service.ifs;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.example.practice.entity.PersonInfo;
@@ -30,5 +31,8 @@ public interface PersonInfoService {
 	
 	//取得 city 包含某個特定字的所有個人資訊
 	public void findByCityContaining(String keyword);
+	
+	/* SQL annotation @Transactional */
+	public int updateCityById3(String id, String city) throws IOException;
 
 }

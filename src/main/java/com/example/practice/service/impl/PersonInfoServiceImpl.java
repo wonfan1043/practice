@@ -1,7 +1,10 @@
 package com.example.practice.service.impl;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -183,4 +186,15 @@ public class PersonInfoServiceImpl implements PersonInfoService {
 		List<PersonInfo> list = personInfoDao.findByCityContaining(keyword);
 		checkAndPrintList(list);
 	}
+	
+	/* SQL annotation @Transactional */
+	@Transactional(rollbackOn = Exception.class)
+	@Override
+	public int updateCityById3(String id, String city) throws IOException {
+		personInfoDao.updateCityById3(id, city);
+		throw new IOException("==========");
+	}
+	//@Transactional → 預設的資料回朔(不更新)是發生在RuntimeException即其子類別，不會包含兄弟類別IOException
+	//因此設定Exception及其所有子類別就可以包含IOException，即將層級拉高到父類別
+	//可以測試拿掉(rollbackOn = Exception.class)看看資料是否會回朔
 }
