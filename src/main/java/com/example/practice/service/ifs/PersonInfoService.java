@@ -34,5 +34,19 @@ public interface PersonInfoService {
 	
 	/* SQL annotation @Transactional */
 	public int updateCityById3(String id, String city) throws IOException;
+	
+	public int transTest1(String id, String city);
+	
+	public int transTest2(String id, String city);
+	
+	public int transTest3(String id, String city);
+	
+	public int transTest4(String id, String city);
+	
+	public int transTest5(String id, String city);
+	
+	public int transTest6(String id, String city);
+	
+	public int transTest8(String id, String city);
 
 }
