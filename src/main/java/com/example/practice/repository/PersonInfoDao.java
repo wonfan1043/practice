@@ -35,7 +35,11 @@ public interface PersonInfoDao extends JpaRepository<PersonInfo, String> {
 
 	// 找出年紀大於輸入條件以及city 包含某個特定字的所有人資訊，依照年齡由大到小排序
 	public List<PersonInfo> findByAgeGreaterThanAndCityContainingOrderByAgeDesc(int age, String keyword);
-
+	
+	// ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+	// ▼▼▼▼▼▼▼▼▼▼ SQL語法們 ▼▼▼▼▼▼▼▼▼▼
+	// ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+	
 	/* SQL語法：INSERT */
 	@Modifying
 	@Transactional
@@ -87,6 +91,7 @@ public interface PersonInfoDao extends JpaRepository<PersonInfo, String> {
 	//nativeQuery = false → 操作的是Entity的屬性，撈取的欄位必須要有對應的建構方法
 	//因為語法中有使用new PersonInfo(id, name, age)，所以就要有對應的建構方法
 	@Query(value = "select new PersonInfo(id, name, age) from PersonInfo where city = ?1")
+//	@Query(value = "select p.id, p.name, p.age from PersonInfo as p where city = ?1")
 	public List<PersonInfo> findByCity2(String city);
 	
 	//nativeQuery = false + 使用別名p(名稱自訂義) → 撈取的是整個Entity
@@ -137,15 +142,14 @@ public interface PersonInfoDao extends JpaRepository<PersonInfo, String> {
 	@Query(value = "select p from PersonInfo as p where city like %?1%")
 	public List<PersonInfo> findByCityLike(String str);
 	
-	/* SQL語法：LIKE + IGNORE CASE */
+	/* SQL語法：LIKE + 忽略大小寫 */
 	//lower → 把比較的值轉成全小寫來比較
 	//uppder → 把比較的值轉成全大寫來比較
 	//要使用concat連接字串和變數，SQL語法的字串是用單引號
 	
 //	@Query(value = "select * from person_info where lower(city) like lower(concat('%',?1,'%'))", nativeQuery = true)
-//	@Query(value = "select p from PersonInfo as p where lower(city) like lower(concat('%',?1,'%'))")
+	@Query(value = "select p from PersonInfo as p where lower(city) like lower(concat('%',?1,'%'))")
 	public List<PersonInfo> findByCityContainingIgnoreCase(String str);
-	//SQL語法不知為何無法用，先用JPA的containing!
 	
 	/* SQL語法：REGEXP */
 	
